@@ -1,8 +1,6 @@
-OctoDB Documentation
-====================
+<p align="center"><img width="50%" src="images/octodb-logo.jpg" alt="OctoDB logo"></p>
 
-<centered logo>
-
+<h1 align="center">OctoDB Documentation</h1>
 
 
 Why?
