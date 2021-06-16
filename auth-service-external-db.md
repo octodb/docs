@@ -9,7 +9,12 @@ Storing Authorizations on an External Database
 If the new user or its new device is approved, the service should send a message to the leader
 node containing the public key of the new device and an integer representing the user_id:
 
-    {pubkey:"...",user_id:123}
+```json
+{
+"pubkey": "...",
+"user_id": 123
+}
+```
 
 The `pubkey` can be copied from the request message
 
@@ -28,7 +33,13 @@ If the new device is approved, the service should send a message to the leader n
 If you stored data about this node on an external database it is possible to use the
 same `node_id` in OctoDB, by passing the value in the authorization message:
 
-    {pubkey:"...",node_type:"...","node_id":...}
+```json
+{
+"pubkey": "...",
+"node_type": "...",
+"node_id": 123
+}
+```
 
 The `pubkey` can be copied from the request message
 
