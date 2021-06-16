@@ -40,11 +40,12 @@ The `action` can be:
 * new_node
 
 
+Storing user data
+-----------------
+
 As the service runs separated from the primary nodes it has 3 options for storing user authorization.
 You can check the instructions according to the storage type:
 
-[External database](auth-service-external-db.md)
-
-[OctoDB](auth-service-octodb.md)
-
-[Both external database and OctoDB](auth-service-external-octodb.md)
+* [OctoDB](auth-service-octodb.md)
+* [External database](auth-service-external-db.md)
+* [Both external database and OctoDB](auth-service-external-octodb.md)
