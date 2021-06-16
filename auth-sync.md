@@ -78,15 +78,52 @@ Your application should verify the node information and return a value according
 
 ### Example
 
-To register the callback functions on the db connection:
+Here is an example in Python:
 
 ```python
-  db.register_function("user_signup", 2, on_user_signup)
-  db.register_function("user_login", 2, on_user_login)
-  db.register_function("new_node", 1, on_new_node)
-```
+import octodb as sqlite3
+import time
+import json
 
-You can check an example [here](...)
+# called by the worker thread:
+
+def on_user_signup(signup_info, node_info):
+    print "on_user_signup signup_info:", signup_info, "node_info:", node_info
+    node = json.loads(node_info)
+    user_id = check_user_signup(signup_info, node)
+    return user_id
+
+def on_user_login(login_info, node_info):
+    print "on_user_login login_info:", login_info, "node_info:", node_info
+    node = json.loads(node_info)
+    user_id = check_user_login(login_info, node)
+    return user_id
+
+def on_new_node(node_info):
+    print "on_new_node", node_info
+    node = json.loads(node_info)
+    node_type = check_new_node(node)
+    return node_type
+
+# open the database
+db = sqlite3.connect('file:app.db?node=primary&bind=tcp://0.0.0.0:1234&auth=user')
+
+# check if the db is ready
+while True:
+    result = db.cursor().execute("PRAGMA sync_status").fetchone()
+    status = json.loads(result[0])
+    if status["db_is_ready"]: break
+    time.sleep(0.250)
+
+# register the callback functions
+db.register_function("user_signup", 2, on_user_signup)
+db.register_function("user_login", 2, on_user_login)
+db.register_function("new_node", 1, on_new_node)
+
+# keep the app open
+while True:
+    time.sleep(0.5)
+```
 
 
 > Note: This method is relatively slow and it does not scale well, so if you plan to support
