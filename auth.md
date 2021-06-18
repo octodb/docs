@@ -73,4 +73,4 @@ file:test.db?node=primary&bind=tcp://0.0.0.0:1234&auth=user
 
 [On Secondary Nodes](auth-secondary-nodes.md) (apps / devices)
 
-[On Primary Nodes](auth-primary-nodes.md) (backend)
+[On Primary Nodes](auth-backend.md) (backend)
