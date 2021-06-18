@@ -1,9 +1,9 @@
 Dedicated Authorization Service
 ===============================
 
-In this case we have a service that binds to a TCP port in which all the primary nodes would connect to
+In this case you need to deploy a service that binds to a TCP port in which all the primary nodes will connect to
 
-Your application running on all the primary nodes should register the service by executing this command:
+Your application running on all the primary nodes must register the service by executing this command:
 
 ```
 PRAGMA authorizer_service="tcp://ip.address:port"
