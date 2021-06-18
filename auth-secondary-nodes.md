@@ -64,9 +64,10 @@ import json
 
 # open the database
 db = sqlite3.connect('file:app.db?node=secondary&connect=tcp://server1:port1,tcp://server2:port2,tcp://server3:port3')
+cur = db.cursor()
 
 # check if the user and device are already authorized
-result = db.cursor().execute("PRAGMA sync_status").fetchone()
+result = cur.execute("PRAGMA sync_status").fetchone()
 status = json.loads(result[0])
 if status["node_id"] == 0:
     # display a screen for user signup or login
@@ -76,18 +77,18 @@ else:
     start_db_ready_timer()
 
 # called by the user auth screen
-def do_user_auth(auth_type, user_data)
+def do_user_auth(auth_type, user_data):
     if auth_type == USER_SIGNUP:
-        db.execute("PRAGMA user_signup='" + user_data + "'")
+        cur.execute("PRAGMA user_signup='" + user_data + "'")
     elif auth_type == USER_LOGIN:
-        db.execute("PRAGMA user_login='" + user_data + "'")
+        cur.execute("PRAGMA user_login='" + user_data + "'")
     # wait until the db is ready for access
     start_db_ready_timer()
 
 # called periodically by the timer
 def on_check_db_ready():
     # check if the db is ready
-    result = db.cursor().execute("PRAGMA sync_status").fetchone()
+    result = cur.execute("PRAGMA sync_status").fetchone()
     status = json.loads(result[0])
     if status["db_is_ready"]:
         # destroy the timer
@@ -113,16 +114,17 @@ user_data = "..."
 
 # open the database
 db = sqlite3.connect('file:app.db?node=secondary&connect=tcp://server1:port1,tcp://server2:port2,tcp://server3:port3')
+cur = db.cursor()
 
 # check if the db is ready
 while True:
-    result = db.cursor().execute("PRAGMA sync_status").fetchone()
+    result = cur.execute("PRAGMA sync_status").fetchone()
     status = json.loads(result[0])
     if status["db_is_ready"]: break
 
-    # check if the user and device are already authorized
+    # check if the device is already authorized
     if not sent_user_registration:
-        db.execute("PRAGMA user_login='" + user_data + "'")
+        cur.execute("PRAGMA user_login='" + user_data + "'")
         sent_user_registration = True
 
     time.sleep(0.250)
