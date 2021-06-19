@@ -77,8 +77,8 @@ If you want to save additional data about the node:
 {
 "pubkey": "...",
 "node_type": "...",
-"execute": ["INSERT INTO xxx VALUES yyy"]
+"execute": ["INSERT INTO xxx VALUES (@node_id, ...)"]
 }
 ```
 
-In this case the SQL command it executed and the `node_id` is retrieved from the `last_insert_rowid()`
+In this case the SQL command is executed and the `@node_id` variable is replaced by the new generated node id
