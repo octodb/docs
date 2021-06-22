@@ -70,12 +70,14 @@ The *user rows* are created by the user/machine locally and then are synchronize
 
 The *global rows* are created at the primary nodes and then are replicated to all the nodes (users/machines). These rows are owned by the administrators and identified by a `*` on the `row_owner` column.
 
-<p align="center"><img width="50%" src="images/global-rows.png" alt="Public rows"></p>
+<p align="center"><img width="50%" src="images/global-rows.png" alt="Global rows"></p>
 
 
 #### Local rows
 
 The *local rows* can be created at any node. They are not replicated, they are present only at the local device. These rows are identified by a `NULL` on the `row_owner` column.
+
+<p align="center"><img width="50%" src="images/local-rows.png" alt="Local rows"></p>
 
 
 #### Mixing all
