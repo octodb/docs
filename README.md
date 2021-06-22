@@ -244,7 +244,6 @@ Important Notes:
 - Open a single connection to each db file
 
 
-
 Limitations
 -----------
 
@@ -254,6 +253,30 @@ Permanent:
 
 On the current version, to be improved:
 
-- Only simple UPDATE commands, without FROM/JOIN and LIMIT clauses, and without agregation on the WHERE clause
-- Only simple DELETE commands, without LIMIT clause
+- Only simple `UPDATE` commands, without `FROM`/`JOIN` and `LIMIT` clauses, and without agregation on the `WHERE` clause
+- Only simple `DELETE` commands, without `LIMIT` clause
 - Nearly 1000 writes per second overall (no limit on reads)
+
+
+Installation
+------------
+
+[Download](download.md) binaries (free version)
+
+[Compile](compile.md) from source
+
+
+Security
+--------
+
+[User and Node Authorization](auth.md)
+
+[Encryption](encryption.md)
+
+
+Support
+-------
+
+[Forum](http://octodb.io/forum/)
+
+E-mail: contact AT octodb DOT io
