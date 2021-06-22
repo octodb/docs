@@ -95,7 +95,6 @@ It is possible to have different types of rows on the same table
 When the application executes an `UPDATE` or `DELETE` SQL command on the user's device the command will only affect the rows from that user (user rows and local rows).
 
 
-
 ## Inserting Rows
 
 Here are some examples according to the row type
@@ -186,6 +185,15 @@ To create a private table use the `private_` prefix on the table name:
     CREATE TABLE private_users (user_id INTEGER PRIMARY KEY, name, email, row_owner)
 
 The same rules apply for replication of rows: we need to add a `row_owner` column if we want to replicate rows between the primary nodes, and we need to set the value accordingly for user rows and local rows.
+
+
+## Sync Users Devices
+
+When a user adds a new device, the shareable content is replicated to the new device
+
+The user can now make changes on any device and the content is synchronized on the other
+
+<p align="center"><img width="50%" src="images/user_with_many_devices.png" alt="User with many devices"></p>
 
 
 ## Conflicts
