@@ -26,16 +26,13 @@ It can handle millions of devices connected simultaneously
 How It Works
 ------------
 
-The databases from the users/machines are always connected to the servers (if the device is online)
+The databases from the users/machines are always connected to the primary nodes (if the device is online)
 
-The administrator (anyone with access to the primary nodes) can create tables and indexes on the primary nodes (backend/servers) and the schema will be replicated to all the secondary nodes (users/machines)
+<p align="center"><img width="50%" src="images/network-topology.png" alt="network topology"></p>
+
+The administrator (anyone with access to the primary nodes) can create tables and indexes on a primary node (backend) and the schema will be replicated to the other primary nodes and to all the secondary nodes (users/machines)
 
 When users or machines create rows on the local instance of a table, the rows are replicated to the backend and merged on a single table
-
-
-
-<example of table with rows from 3 users>
-
 
 
 ### The `row_owner` column
@@ -58,21 +55,40 @@ When the column is added to an already populated table, all the rows remain loca
 There are 3 types of rows that can be on these tables:
 
 * User rows
-* Public rows
+* Global rows
 * Local rows
 
-The **user rows** are created by the user/machine locally and then are synchronized to the same table on the backend and to other devices of the same user/machine. These rows are owned by the user/machine and identified by the `user_id` on the `row_owner` column.
 
-The **public rows** are created at the primary nodes and then are replicated to all the nodes (users/machines). These rows are owned by the administrators and identified by a `*` on the `row_owner` column.
+#### User rows
 
-The **local rows** can be created at any node and are not replicated. They are present only at the local device. These rows are identified by a `NULL` on the `row_owner` column.
+The *user rows* are created by the user/machine locally and then are synchronized to the same table on the backend and to other devices of the same user/machine. These rows are owned by the user/machine and identified by the `user_id` on the `row_owner` column.
+
+<p align="center"><img width="50%" src="images/user-rows.png" alt="User rows"></p>
+
+
+#### Global rows
+
+The *global rows* are created at the primary nodes and then are replicated to all the nodes (users/machines). These rows are owned by the administrators and identified by a `*` on the `row_owner` column.
+
+<p align="center"><img width="50%" src="images/global-rows.png" alt="Public rows"></p>
+
+
+#### Local rows
+
+The *local rows* can be created at any node. They are not replicated, they are present only at the local device. These rows are identified by a `NULL` on the `row_owner` column.
+
+
+#### Mixing all
+
+It is possible to have different types of rows on the same table
+
+<p align="center"><img width="50%" src="images/mixed-rows.png" alt="Mixed rows"></p>
 
  Row Type   | row_owner
 ----------- | ----------
  User row   | {user_id}
  Public row | *
  Local row  | NULL
-
 
 When the application executes an `UPDATE` or `DELETE` SQL command on the user's device the command will only affect the rows from that user (user rows and local rows).
 
@@ -110,6 +126,8 @@ Insert a `NULL` on the `row_owner` column:
 ### Sending Rows to Specific Users / Machines
 
 The primary nodes (backend) can insert rows that are replicated only to specific users
+
+<p align="center"><img width="50%" src="images/insert_to_specific_user.png" alt="Send rows to specific user"></p>
 
 This is done by informing the user id on the `row_owner` column when inserting the row:
 
