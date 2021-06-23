@@ -227,6 +227,36 @@ Conflicts that trigger contraint violations, like `CREATE TABLE` with the same n
 > When a command is rejected on the primary nodes the whole transaction is rolled back! Have this in mind when creating transactions on your apps
 
 
+Limitations
+-----------
+
+Permanent:
+
+- A single connection to each db file
+
+On the current version, to be improved:
+
+- Only simple `UPDATE` commands, without `FROM`/`JOIN` and `LIMIT` clauses, and without agregation on the `WHERE` clause
+- Only simple `DELETE` commands, without `LIMIT` clause
+- Nearly 1000 writes per second overall (no limit on reads)
+
+
+Security
+--------
+
+[User and Node Authorization](auth.md)
+
+[Encryption](encryption.md)
+
+
+Installation
+------------
+
+[Download](download.md) binaries (free version)
+
+[Compile](compile.md) from source
+
+
 How To Use It
 -------------
 
@@ -244,34 +274,11 @@ Important Notes:
 - Open a single connection to each db file
 
 
-Limitations
------------
-
-Permanent:
-
-- A single connection to each db file
-
-On the current version, to be improved:
-
-- Only simple `UPDATE` commands, without `FROM`/`JOIN` and `LIMIT` clauses, and without agregation on the `WHERE` clause
-- Only simple `DELETE` commands, without `LIMIT` clause
-- Nearly 1000 writes per second overall (no limit on reads)
-
-
-Installation
-------------
-
-[Download](download.md) binaries (free version)
-
-[Compile](compile.md) from source
-
-
-Security
+Examples
 --------
 
-[User and Node Authorization](auth.md)
+[Python](python.md)
 
-[Encryption](encryption.md)
 
 
 Support
