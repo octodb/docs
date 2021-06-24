@@ -233,6 +233,7 @@ Limitations
 Permanent:
 
 - A single connection to each db file
+- Up to 2^31 (2,147,483,647) total nodes (between primary and secondary), each node can have up to 2^32 (4,294,967,296) rows on EACH table  *(please contact if you have different requirements)*
 
 On the current version, to be improved:
 
