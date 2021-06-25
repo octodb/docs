@@ -253,7 +253,7 @@ Security
 Installation
 ------------
 
-[Download](download.md) binaries (free version)
+[Download](http://octodb.io/en/download.html) binaries (free version)
 
 [Compile](compile.md) from source
 
@@ -278,13 +278,14 @@ Important Notes:
 Examples
 --------
 
-[Python](python.md)
-
+* [Python](examples/python.md)
+* [Node.js](examples/nodejs.md)
+* [Java](examples/java.md)
 
 
 Support
 -------
 
-[Forum](http://octodb.io/forum/)
+[OctoDB Forum](http://octodb.io/forum/)
 
-E-mail: contact AT octodb DOT io
+E-mail: contact **AT** octodb **DOT** io
