@@ -281,6 +281,19 @@ Examples
 * [Python](examples/python.md)
 * [Node.js](examples/nodejs.md)
 * [Java](examples/java.md)
+* [.NET](examples/dotnet.md)
+* [Go](examples/go.md)
+* [Swift](examples/swift.md)
+* [Ruby](examples/ruby.md)
+* [C](examples/c.md)
+* [C++](examples/cpp.md)
+* [C++/Qt](examples/qt.md)
+
+Mobile
+
+* [Android Native](examples/android-native.md) (Java)
+* [iOS Native](examples/ios-native.md) (Swift)
+* [Xamarin](examples/xamarin.md)
 
 
 Support
