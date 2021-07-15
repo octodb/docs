@@ -44,6 +44,11 @@ while (true) {
     System.Threading.Thread.Sleep(250);
 }
 
+db.OnSync(() => {
+    // notification received on the worker thread - you can transfer it to the main thread here
+    Console.WriteLine("update received");
+});
+
 // now we can use the database
 ...
 ```
@@ -130,6 +135,11 @@ namespace OctoDBExample
                 if (status.Contains("\"db_is_ready\": true")) break;
                 System.Threading.Thread.Sleep(250);
             }
+
+            db.CreateFunction("update_notification", () => {
+                // notification received on the worker thread - you can transfer it to the main thread here
+                Console.WriteLine("update received");
+            });
 
             // now we can use the database
             ...
