@@ -22,6 +22,8 @@ You can start downloading the free version:
 
 Add the native libraries to the project according to the platform
 
+#### Android
+
 On Android you may have a folder structure like this:
 
     - lib
@@ -37,7 +39,9 @@ On each sub-folder you may have 4 libraries:
     libbinn.so
     libsecp256k1-vrf.so
 
-For each of the `.so` files, CONTROL + CLICK then set Build Action to EmbeddedNativeLibrary
+For each of the `.so` files, CONTROL + CLICK then set Build Action to AndroidNativeLibrary
+
+#### iOS
 
 On iOS we should have 4 fat libraries for static linking:
 
@@ -53,6 +57,9 @@ CONTROL + CLICK on each library, click Properties and enable these items:
     √ Force Load
     √ Is C++
     √ Smart Link
+
+
+#### Finally
 
 Add the [SQLite.cs](https://github.com/octodb/sqlite-net/blob/master/src/SQLite.cs) file to your project
 
@@ -117,7 +124,7 @@ On each sub-folder you may have 4 libraries:
     libbinn.so
     libsecp256k1-vrf.so
 
-For each of the `.so` files, CONTROL + CLICK then set Build Action to EmbeddedNativeLibrary
+For each of the `.so` files, CONTROL + CLICK then set Build Action to AndroidNativeLibrary
 
 ### iOS
 
