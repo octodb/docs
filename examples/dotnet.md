@@ -44,6 +44,7 @@ while (true) {
     System.Threading.Thread.Sleep(250);
 }
 
+// subscribe to db sync notifications
 db.OnSync(() => {
     // notification received on the worker thread - you can transfer it to the main thread here
     Console.WriteLine("update received");
@@ -136,6 +137,7 @@ namespace OctoDBExample
                 System.Threading.Thread.Sleep(250);
             }
 
+            // subscribe to db sync notifications
             db.CreateFunction("update_notification", () => {
                 // notification received on the worker thread - you can transfer it to the main thread here
                 Console.WriteLine("update received");
