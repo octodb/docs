@@ -64,10 +64,10 @@ public class SecondaryNode
       System.out.println("secondary database ready");
 
       // subscribe to db sync notifications
-      Function.create(connection, "update_notification", new Function() {
+      Function.create(connection, "sync_notification", new Function() {
           protected void xFunc() {
               // notification received on the worker thread - you can transfer it to the main thread here
-              System.out.println("update received!");
+              System.out.println("db sync received!");
           }
       });
 
