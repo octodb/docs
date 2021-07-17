@@ -253,7 +253,7 @@ Security
 Installation
 ------------
 
-[Download](http://octodb.io/en/download.html) binaries (free version)
+[Download](download.md) binaries (free version)
 
 [Compile](compile.md) from source
 
