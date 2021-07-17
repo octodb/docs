@@ -33,6 +33,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import org.sqlite.*;
 import org.json.*;
 
 public class SecondaryNode
@@ -61,6 +62,14 @@ public class SecondaryNode
 
       // print some text
       System.out.println("secondary database ready");
+
+      // subscribe to db sync notifications
+      Function.create(connection, "update_notification", new Function() {
+          protected void xFunc() {
+              // notification received on the worker thread - you can transfer it to the main thread here
+              System.out.println("update received!");
+          }
+      });
 
       // now we can access the db
       start_access(connection);
@@ -94,3 +103,25 @@ public class SecondaryNode
   }
 }
 ```
+
+
+### Working Examples
+
+Download the OctoDB JDBC driver to an empty folder:
+
+    mkdir octodb-jdbc
+    cd octodb-jdbc
+    wget octodb.io/download/octodb-jdbc-for-testing.tar.gz
+    tar zxvf octodb-jdbc-for-testing.tar.gz
+
+Then run the example tests in 2 separate terminals:
+
+    ./run PrimaryNode
+
+    ./run SecondaryNode
+
+On Windows:
+
+    run.bat PrimaryNode
+
+    run.bat SecondaryNode
