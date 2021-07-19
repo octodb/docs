@@ -55,19 +55,41 @@ CONTROL + CLICK on the Xamarin.iOS project then choose Add > Add Native Referenc
 CONTROL + CLICK on each library, click Properties and enable these items:
 
     √ Force Load
-    √ Is C++
     √ Smart Link
+
+
+### Nuget Packages
+
+Install with these commands:
+
+    dotnet add package SQLitePCLRaw.core
+    dotnet add package SQLitePCLRaw.provider.internal
+    dotnet add package SQLitePCLRawProvider.OctoDB
 
 
 #### Finally
 
 Add the [SQLite.cs](https://github.com/octodb/sqlite-net/blob/master/src/SQLite.cs) file to your project
 
+And define the `USE_SQLITEPCL_RAW` conditional variable in the shared project
+
 
 ### Example code
 
 ```csharp
 using SQLite;
+using SQLitePCL;
+
+if (Device.RuntimePlatform == Device.iOS)
+{
+    // use the OctoDB static native library
+    SQLitePCL.raw.SetProvider(new SQLite3Provider_internal());
+}
+else // if (Device.RuntimePlatform == Device.Android)
+{
+    // load the OctoDB dynamic native library
+    SQLitePCL.raw.SetProvider(new SQLite3Provider_OctoDB());
+}
 
 // open the database
 var uri = "file:test.db?node=primary&bind=tcp://0.0.0.0:1234";
@@ -141,7 +163,6 @@ CONTROL + CLICK on the Xamarin.iOS project then choose Add > Add Native Referenc
 CONTROL + CLICK on each library, click Properties and enable these items:
 
     √ Force Load
-    √ Is C++
     √ Smart Link
 
 
@@ -152,8 +173,8 @@ Install with these commands:
     dotnet add package Microsoft.Data.Sqlite
     dotnet add package Microsoft.Data.Sqlite.Core
     dotnet add package SQLitePCLRaw.core
-    dotnet add package SQLitePCLRaw.provider.dynamic
     dotnet add package SQLitePCLRaw.provider.internal
+    dotnet add package SQLitePCLRawProvider.OctoDB
 
 
 ### Example code
@@ -165,36 +186,24 @@ Also, avoid using a `SQLitePCLRaw` bundle package which might override the dynam
 ```csharp
 using Microsoft.Data.Sqlite;
 using SQLitePCL;
-using System;
 
 namespace OctoDBExample
 {
-    // used to load the native library dynamically
-    class NativeLibraryAdapter : IGetFunctionPointer
-    {
-        readonly IntPtr _library;
-    
-        public NativeLibraryAdapter(string name)
-            => _library = NativeLibrary.Load(name);
-    
-        public IntPtr GetFunctionPointer(string name)
-            => NativeLibrary.TryGetExport(_library, name, out var address)
-                ? address
-                : IntPtr.Zero;
-    }
-
     class Program
     {
         static void Main()
         {
-        #if iOS
-            // use the OctoDB static native library
-            SQLitePCL.raw.SetProvider(new SQLite3Provider_internal());
-        #else
-            // load the OctoDB dynamic native library
-            SQLite3Provider_dynamic_cdecl.Setup("octodb", new NativeLibraryAdapter("octodb"));
-            SQLitePCL.raw.SetProvider(new SQLite3Provider_dynamic_cdecl());
-        #endif
+
+            if (Device.RuntimePlatform == Device.iOS)
+            {
+                // use the OctoDB static native library
+                SQLitePCL.raw.SetProvider(new SQLite3Provider_internal());
+            }
+            else // if (Device.RuntimePlatform == Device.Android)
+            {
+                // load the OctoDB dynamic native library
+                SQLitePCL.raw.SetProvider(new SQLite3Provider_OctoDB());
+            }
 
             // open the database
             var uri = "file:test.db?node=primary&bind=tcp://0.0.0.0:1234";
