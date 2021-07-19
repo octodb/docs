@@ -80,44 +80,26 @@ Install with these commands:
 
     dotnet add package Microsoft.Data.Sqlite
     dotnet add package Microsoft.Data.Sqlite.Core
-    dotnet add package SQLitePCLRaw.core
-    dotnet add package SQLitePCLRaw.provider.dynamic
+    dotnet add package SQLitePCLRaw.core  --version 2.0.4
+    dotnet add package SQLitePCLRawProvider.OctoDB  --version 2.0.4
 
 
 ### Example Code
 
 Make sure to load the native library before using `Microsoft.Data.Sqlite`
 
-Also, avoid using a `SQLitePCLRaw` bundle package which might override the dynamic provider
-
 ```csharp
 using Microsoft.Data.Sqlite;
 using SQLitePCL;
-using System;
 
 namespace OctoDBExample
 {
-    // used to load the native library dynamically
-    class NativeLibraryAdapter : IGetFunctionPointer
-    {
-        readonly IntPtr _library;
-    
-        public NativeLibraryAdapter(string name)
-            => _library = NativeLibrary.Load(name);
-    
-        public IntPtr GetFunctionPointer(string name)
-            => NativeLibrary.TryGetExport(_library, name, out var address)
-                ? address
-                : IntPtr.Zero;
-    }
-
     class Program
     {
         static void Main()
         {
             // load the OctoDB native library
-            SQLite3Provider_dynamic_cdecl.Setup("octodb", new NativeLibraryAdapter("octodb"));
-            SQLitePCL.raw.SetProvider(new SQLite3Provider_dynamic_cdecl());
+            SQLitePCL.raw.SetProvider(new SQLite3Provider_OctoDB());
 
             // open the database
             var uri = "file:test.db?node=primary&bind=tcp://0.0.0.0:1234";
