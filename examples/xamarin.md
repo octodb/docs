@@ -62,9 +62,9 @@ CONTROL + CLICK on each library, click Properties and enable these items:
 
 Install with these commands:
 
-    dotnet add package SQLitePCLRaw.core
-    dotnet add package SQLitePCLRaw.provider.internal
-    dotnet add package SQLitePCLRawProvider.OctoDB
+    dotnet add package SQLitePCLRaw.core  --version 2.0.4
+    dotnet add package SQLitePCLRaw.provider.internal  --version 2.0.4
+    dotnet add package SQLitePCLRawProvider.OctoDB  --version 2.0.4
 
 
 #### Finally
@@ -172,9 +172,9 @@ Install with these commands:
 
     dotnet add package Microsoft.Data.Sqlite
     dotnet add package Microsoft.Data.Sqlite.Core
-    dotnet add package SQLitePCLRaw.core
-    dotnet add package SQLitePCLRaw.provider.internal
-    dotnet add package SQLitePCLRawProvider.OctoDB
+    dotnet add package SQLitePCLRaw.core  --version 2.0.4
+    dotnet add package SQLitePCLRaw.provider.internal  --version 2.0.4
+    dotnet add package SQLitePCLRawProvider.OctoDB  --version 2.0.4
 
 
 ### Example code
