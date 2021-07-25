@@ -21,26 +21,25 @@ const options = { verbose: console.log };
 const uri = 'file:test.db?node=secondary&connect=tcp://127.0.0.1:1234';
 const db = require('better-sqlite3-octodb')(uri, options);
 
-const timer = setInterval(function(){
-  var res = db.prepare('PRAGMA sync_status').get();
-  var status = JSON.parse(res.sync_status);
-  if (status.db_is_ready) {
-    clearInterval(timer);
-    onDbReady();
-  }
-}, 1000);
+db.on('ready', function() {
 
-function onDbReady() {
+  const row = db.prepare('SELECT * FROM users').all();
+  console.log(row.name, row.email);
 
-  const row = db.prepare('SELECT * FROM users WHERE id = ?').get(userId);
-  console.log(row.firstName, row.lastName, row.email);
+});
 
-  setTimeout(function(){
-    console.log('closing...');
-    db.close();
-  }, 2000);
+db.on('sync', function() {
 
-}
+  console.log('the database received updates');
+
+});
+```
+
+You can also check the status with:
+
+```js
+let res = db.prepare('PRAGMA sync_status').get();
+let status = JSON.parse(res.sync_status);
 ```
 
 -----
