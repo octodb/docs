@@ -35,6 +35,23 @@ db.on('sync', function() {
 });
 ```
 
+Here is an example for an app with user login:
+
+```js
+// check if the db is ready
+if (db.is_ready()) {
+  // show the main screen
+  ...
+} else {
+  // show the signup/login screen
+  ...
+  db.on('ready', () => {
+    // login successful, show the main screen
+    ...
+  });
+}
+```
+
 You can also check the status with:
 
 ```js
