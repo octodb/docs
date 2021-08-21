@@ -66,7 +66,7 @@ CONTROL + CLICK on each library, click Properties and enable these items:
 Install with these commands:
 
     dotnet add package SQLitePCLRaw.core  --version 2.0.4
-    dotnet add package SQLitePCLRaw.provider.internal  --version 2.0.4
+    dotnet add package SQLitePCLRawProvider.static  --version 2.0.4
     dotnet add package SQLitePCLRawProvider.OctoDB  --version 2.0.4
 
 
@@ -86,7 +86,7 @@ using SQLitePCL;
 if (Device.RuntimePlatform == Device.iOS)
 {
     // use the OctoDB static native library
-    SQLitePCL.raw.SetProvider(new SQLite3Provider_internal());
+    SQLitePCL.raw.SetProvider(new SQLite3Provider_static());
 }
 else // if (Device.RuntimePlatform == Device.Android)
 {
@@ -176,7 +176,7 @@ Install with these commands:
     dotnet add package Microsoft.Data.Sqlite
     dotnet add package Microsoft.Data.Sqlite.Core
     dotnet add package SQLitePCLRaw.core  --version 2.0.4
-    dotnet add package SQLitePCLRaw.provider.internal  --version 2.0.4
+    dotnet add package SQLitePCLRawProvider.static  --version 2.0.4
     dotnet add package SQLitePCLRawProvider.OctoDB  --version 2.0.4
 
 
@@ -200,7 +200,7 @@ namespace OctoDBExample
             if (Device.RuntimePlatform == Device.iOS)
             {
                 // use the OctoDB static native library
-                SQLitePCL.raw.SetProvider(new SQLite3Provider_internal());
+                SQLitePCL.raw.SetProvider(new SQLite3Provider_static());
             }
             else // if (Device.RuntimePlatform == Device.Android)
             {
