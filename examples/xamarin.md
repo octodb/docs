@@ -3,6 +3,9 @@ OctoDB on Xamarin
 
 There are 2 options to use OctoDB on Xamarin:
 
+* SQLite.NET
+* Microsoft.Data.SQLite
+
 
 SQLite.NET
 ----------
