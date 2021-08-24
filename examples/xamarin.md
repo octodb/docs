@@ -98,21 +98,25 @@ else // if (Device.RuntimePlatform == Device.Android)
 var uri = "file:test.db?node=primary&bind=tcp://0.0.0.0:1234";
 var db = new SQLiteConnection(uri);
 
-// check if the db is ready
-while (true) {
-    var status = db.ExecuteScalar<string>("pragma sync_status");
-    if (status.Contains("\"db_is_ready\": true")) break;
-    System.Threading.Thread.Sleep(250);
+// check if the database is ready
+if (db.IsReady()) {
+    // the user is already logged in. show the main screen
+    ...
+} else {
+    // the user is not logged in. show the login screen
+    ...
+    // wait until the login is successful
+    db.OnReady(() => {
+        // the log in was successful. show the main screen
+        ...
+    });
 }
 
 // subscribe to db sync notifications
 db.OnSync(() => {
-    // notification received on the worker thread - you can transfer it to the main thread here
-    Console.WriteLine("db sync received");
+    // update the screen with new data
+    ...
 });
-
-// now we can use the database
-...
 ```
 
 
