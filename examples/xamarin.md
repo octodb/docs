@@ -70,7 +70,7 @@ Install with these commands:
     dotnet add package SQLitePCLRawProvider.OctoDB  --version 2.0.4
 
 
-#### Finally
+### Finally
 
 Add the [SQLite.cs](https://github.com/octodb/sqlite-net/blob/master/src/SQLite.cs) file to your project
 
@@ -144,6 +144,9 @@ var status = db.ExecuteScalar<string>("pragma sync_status");
 ```
 
 
+----------------------------------------------------------------------------------------
+
+
 Microsoft.Data.SQLite
 ---------------------
 
@@ -207,7 +210,7 @@ Install with these commands:
     dotnet add package SQLitePCLRawProvider.OctoDB  --version 2.0.4
 
 
-### Example code
+### Example Code
 
 Make sure to load the native library before using `Microsoft.Data.Sqlite`
 
