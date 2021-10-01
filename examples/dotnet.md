@@ -28,6 +28,23 @@ Here is how to bundle the library on the project:
 Add the [SQLite.cs](https://github.com/octodb/sqlite-net/blob/master/src/SQLite.cs) file to your project
 
 
+### Tables
+
+The library contains simple attributes that you can use to control the construction of tables
+
+```csharp
+public class TodoItem
+{
+    [PrimaryKey, AutoIncrement]
+    public long ID { get; set; }
+    public string Name { get; set; }
+    public bool Done { get; set; }
+}
+```
+
+On tables with integer primary keys the primary key column must be declared as `long` instead of `int` because OctoDB always use a 64-bit number for row ids
+
+
 ### Example Code
 
 ```csharp
@@ -37,22 +54,52 @@ using SQLite;
 var uri = "file:test.db?node=primary&bind=tcp://0.0.0.0:1234";
 var db = new SQLiteConnection(uri);
 
-// check if the db is ready
-while (true) {
-    var status = db.ExecuteScalar<string>("pragma sync_status");
-    if (status.Contains("\"db_is_ready\": true")) break;
+// wait until the db is ready
+while (!db.IsReady()) {
     System.Threading.Thread.Sleep(250);
 }
 
-// subscribe to db sync notifications
-db.OnSync(() => {
-    // notification received on the worker thread - you can transfer it to the main thread here
-    Console.WriteLine("db sync received");
-});
-
 // now we can use the database
+db.CreateTable<TodoItem>();
 ...
 ```
+
+Instead of waiting until the database is ready for access we can use an event notification:
+
+```csharp
+if (db.IsReady()) {
+    // the database is ready to be accessed
+    StartDatabaseAccess(db);
+} else {
+    // wait until the db is ready (and do not access the database in the meanwhile)
+    db.OnReady(() => {
+        // the database is ready to be accessed
+        StartDatabaseAccess(db);
+    });
+}
+
+void StartDatabaseAccess(SQLiteConnection db) {
+    db.CreateTable<TodoItem>();
+    ...
+}
+```
+
+Your application can also receive a notification when the database receives a sync/update:
+
+```csharp
+// subscribe to db sync notifications
+db.OnSync(() => {
+    // update the screen with new data
+    ...
+});
+```
+
+To retrieve the synchronization status:
+
+```csharp
+var status = db.ExecuteScalar<string>("pragma sync_status");
+```
+
 
 
 ## Microsoft.Data.SQLite
