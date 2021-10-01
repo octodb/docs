@@ -74,10 +74,27 @@ Install with these commands:
 
 Add the [SQLite.cs](https://github.com/octodb/sqlite-net/blob/master/src/SQLite.cs) file to your project
 
-And define the `USE_SQLITEPCL_RAW` conditional variable in the shared project
+And define the `__MOBILE__` and `USE_SQLITEPCL_RAW` conditional variables in the main/shared project
 
 
-### Example code
+### Tables
+
+The library contains simple attributes that you can use to control the construction of tables
+
+```csharp
+public class TodoItem
+{
+    [PrimaryKey, AutoIncrement]
+    public long ID { get; set; }
+    public string Name { get; set; }
+    public bool Done { get; set; }
+}
+```
+
+On tables with integer primary keys the primary key column must be declared as `long` instead of `int` because OctoDB always use a 64-bit number for row ids
+
+
+### Example Code
 
 ```csharp
 using SQLite;
@@ -95,7 +112,8 @@ else // if (Device.RuntimePlatform == Device.Android)
 }
 
 // open the database
-var uri = "file:test.db?node=primary&bind=tcp://0.0.0.0:1234";
+var databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "App.db");
+var uri = "file:" + databasePath + "?node=secondary&connect=tcp://123.45.67.89:1234";
 var db = new SQLiteConnection(uri);
 
 // check if the database is ready
@@ -103,11 +121,11 @@ if (db.IsReady()) {
     // the user is already logged in. show the main screen
     ...
 } else {
-    // the user is not logged in. show the login screen
+    // the user is not logged in. show the login screen (and do not access the database!)
     ...
     // wait until the login is successful
     db.OnReady(() => {
-        // the log in was successful. show the main screen
+        // the log in was successful. show the main screen (the app can access the database now)
         ...
     });
 }
@@ -119,6 +137,11 @@ db.OnSync(() => {
 });
 ```
 
+To retrieve the synchronization status:
+
+```csharp
+var status = db.ExecuteScalar<string>("pragma sync_status");
+```
 
 
 Microsoft.Data.SQLite
