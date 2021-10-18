@@ -237,6 +237,7 @@ namespace OctoDBExample
                 // load the OctoDB dynamic native library
                 SQLitePCL.raw.SetProvider(new SQLite3Provider_OctoDB());
             }
+            SQLitePCL.raw.FreezeProvider(true);
 
             // open the database
             var uri = "file:test.db?node=primary&bind=tcp://0.0.0.0:1234";
